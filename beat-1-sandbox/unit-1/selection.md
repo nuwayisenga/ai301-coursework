@@ -20,8 +20,6 @@ https://github.com/codepath/pathreview-ai301-fa26-s3/issues/62
 **Verdict output**
 
 ```
-Now I have all the evidence I need. Let me compile the grades.
-
 ---
 
 **Evidence summary (repo-level, applies to all three issues):**
@@ -198,18 +196,11 @@ This is also the basis for the claim comment you write in Unit 2.
 
 **Selection rationale**
 
-> **Draft below — read this and rewrite it in your own words before submitting.** I put
-> together a starting answer from what you told me (Python/JS-TS comfortable, want a real
-> bug fix in app code, no strong frontend/backend preference, want it traceable and
-> bounded) plus what the live-mode run surfaced. This field is graded on being in your own
-> words, so treat this as a scaffold, not a final answer.
+I chose #62 because it fits what I want from a first contribution: a real backend bug fix in Python which is one of the languages that I am confortable working with, with a clear root cause and a narrow scope. The issue is specific and traceable, the health check is referencing a setting that does not exist, and the fix is likely limited to a small change in the config/API layer. That makes it a good fit for someone who wants to work on app code without getting stuck in a much larger system like me.
 
-1. **Fit to interests and time available.** #62 is a small FastAPI health-check bug: `settings.redis_host` doesn't exist on the `Settings` object, so the health probe crashes instead of reporting Redis as down. It's in Python, in a domain (backend config/API code) I'm comfortable navigating, and both my rubric and the skill's own time estimate put it at the low end (roughly 1–2 hours), which fits picking a first issue I can actually finish rather than one that turns into a multi-day rabbit hole.
+I also think it is a realistic choice for my time and skill level. Of the accepted issues, this one is the most straightforward to understand and fix. The issue points to an exact file and the exact mismatch, so I can spend my effort on the code change itself instead of sorting through ambiguous requirements or a broad feature area.
 
-2. **What the verdict identified correctly, and what I weighed that the rubric couldn't.** The rubric correctly flagged that the fix is precisely located — it names the exact file (`api/routes/health.py`) and the exact wrong-vs-right attribute names, so there's no guessing about where to look or what "done" means. What the rubric can't weigh is my own comfort level: of the three accepted issues, #62 needs the least new domain knowledge (no passlib exception hierarchy to learn like #72, no RAG/LLM-output context to absorb like #69), so it's the one where I'll spend my time on the actual fix and the PR process rather than on background reading.
-
-3. **Anticipated difficulty in claiming it.** Low-to-moderate. I'll need to find where `Settings` is defined (likely a `config.py` or `settings.py`), confirm the correct attribute is `redis_url` (per the issue body), and reproduce the crash — probably by hitting the health endpoint locally or running the relevant test. The main friction I expect is environment setup (getting the FastAPI app or its test suite running locally at all) rather than the fix itself, which is a small, well-specified change.
-
+The main challenge will probably be reproducing the bug and getting the app or test environment running locally, rather than the fix itself. Once I confirm the correct setting name and patch the health endpoint, the change is small and well-defined. That balance of clarity, scope, and practical difficulty is why I picked this issue.
 ---
 
 Related paths: `eval-run.txt` in this directory; your skill's files in
