@@ -1,0 +1,19 @@
+# Rubric: is this plan ready to post and build from?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| diagnosis-grounded | The plan's stated cause, read against the repro-evidence block's artifacts: control runs, step outputs, error types, and what the steps actually pin down. | The cause named in the plan is consistent with what the repro artifacts show. A diagnosis that contradicts a control run (e.g., blames a component the control proves working), names a cause the repro evidence rules out, or ignores what the repro evidence directly shows fails. A terse diagnosis that names the same cause the repro evidence isolates passes even if short. | required |
+| scope-bounded | The plan's in-scope and not-in-scope statements (or equivalent bounding language), read against the issue's description of the problem. | The change is limited to what the issue identifies. A plan that adds drive-by refactors, migrations, redesigns, or cross-cutting changes not required by the issue fails even if the core fix is correct. A plan that explicitly defers adjacent work with stated reasons passes. An intentional scope-down (narrower than the full issue) with a stated rationale passes; a scope-down with no reason passes if the plan is still complete for what it claims. | required |
+| plan-executable | The plan's approach section and named files or areas, read against the issue description and repro evidence. | A stranger could start executing without asking the author anything: at least one file or area is named, the approach is chosen rather than deferred ("investigate and decide later" fails), and no critical decision is left entirely open to build time. A plan that names files and approach but defers one sub-decision (e.g., which of two detection methods to use) while giving enough to start passes. A plan with no named file and no chosen approach fails. | required |
+| test-decisive | The plan's test plan, read against the repro-evidence block's observable artifacts and the issue's described symptom. | The test plan names an observable outcome specific to this issue's symptom: the exact error absent, the exact behavior restored, the specific test case passing or failing. An outcome that would not distinguish a fix from no fix — "should feel faster", "run the full test suite", "nothing else should break" — fails. A test plan that re-runs the repro steps and states what the expected output is passes. | required |
+| thread-and-conventions | The plan comment, read against (a) explicit direction signals in the thread highlights (OWNER or CONTRIBUTOR identifying the fix location, posting a patch, or naming a specific next step) and (b) the repo-facts AI-use policy line. | Two sub-conditions, both must hold: (a) Thread engagement: if a maintainer (OWNER or CONTRIBUTOR) has identified the fix location, posted a patched build, or given explicit next-step direction, the comment must acknowledge that direction; pursuing a contradictory or orthogonal approach without engaging it fails. If no such direction exists in the thread highlights, this sub-check passes automatically. (b) AI disclosure: if the repo's stated policy explicitly requires disclosing AI use in comments (phrases like "all AI usage must be disclosed", "AI-assisted comments must state the tool used"), the comment must include a disclosure line — every plan package is treated as AI-assisted. A repo with no AI policy, or a permissive policy that doesn't mandate disclosure in comments, passes automatically. | required |
+
+## Verdict rule
+
+Accept if and only if every `required` check grades `pass`.
+
+- A single `required` check grading `fail` produces `reject`.
+- `unclear` on a `required` check counts as `fail`. If the evidence a check names is genuinely absent from the bundle, grade the check `unclear` and the package is not ready to post.
+- `preferred` checks (none defined) never change the verdict.
